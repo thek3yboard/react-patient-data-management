@@ -5,14 +5,23 @@ import Col from 'react-bootstrap/Col'
 import Row from 'react-bootstrap/Row'
 import Container from 'react-bootstrap/Container'
 import Modal from 'react-bootstrap/Modal'
-import './PatientsCards.css'
+import Form from 'react-bootstrap/Form'
+import './PatientCards.css'
 
-export function PatientsCards (props) {
+export function PatientCards (props) {
   const [show, setShow] = useState(false)
-  const [dataModal, setDataModal] = useState(null)
+  const [modalData, setModalData] = useState(null)
 
   const handleClose = () => setShow(false)
   const handleShow = () => setShow(true)
+
+  const onInputChange = (e) => {
+    if (e.target.name === 'name') {
+      modalData.name = e.target.value
+    } else if (e.target.name === 'description') {
+      modalData.description = e.target.value
+    }
+  }
 
   return (
     <Container fluid>
@@ -31,7 +40,7 @@ export function PatientsCards (props) {
                     <Button variant="primary">Ver más</Button>
                     <Button variant="secondary" onClick={() => {
                       handleShow()
-                      setDataModal(patient)
+                      setModalData(patient)
                     }}>Editar</Button>
                   </Card.Body>
                 </Card>
@@ -39,9 +48,17 @@ export function PatientsCards (props) {
 
               {show && <Modal show={show} onHide={handleClose}>
                   <Modal.Header closeButton>
-                      <Modal.Title>{dataModal.name}</Modal.Title>
+                      <Modal.Title>
+                        <Form.Label>
+                          <Form.Control type="text" defaultValue={modalData.name} name="name" onChange={(e) => onInputChange(e)} />
+                        </Form.Label>
+                      </Modal.Title>
                   </Modal.Header>
-                  <Modal.Body><p>dsadsad</p></Modal.Body>
+                  <Modal.Body>
+                    <Form.Label>
+                      <Form.Control as="textarea" rows={3} type="text" defaultValue={modalData.description} name="description" onChange={(e) => onInputChange(e)} />
+                    </Form.Label>
+                  </Modal.Body>
                   <Modal.Footer>
                       <Button variant="secondary" onClick={handleClose}>
                       Close

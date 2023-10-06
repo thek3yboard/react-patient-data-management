@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { PatientsCards } from './components/PatientsCards.jsx'
+import { PatientCards } from './components/PatientCards.jsx'
 import { ModalPatient } from './components/ModalPatient.jsx'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import './App.css'
@@ -28,7 +28,7 @@ function App () {
 
   return (
     <>
-      <PatientsCards patients={patients} abrirModal={abrirModal} />
+      <PatientCards patients={patients} abrirModal={abrirModal} />
     </>
   )
 }
