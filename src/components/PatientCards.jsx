@@ -46,7 +46,7 @@ export function PatientCards (props) {
                 </Card>
               </Col>
 
-              {show && <Modal show={show} onHide={handleClose}>
+              {show && <Modal show={show} fullscreen={true} onHide={handleClose}>
                   <Modal.Header closeButton>
                       <Modal.Title>
                         <Form.Label>
@@ -55,9 +55,7 @@ export function PatientCards (props) {
                       </Modal.Title>
                   </Modal.Header>
                   <Modal.Body>
-                    <Form.Label>
-                      <Form.Control as="textarea" rows={3} type="text" defaultValue={modalData.description} name="description" onChange={(e) => onInputChange(e)} />
-                    </Form.Label>
+                      <Form.Control as="textarea" rows={15} type="text" defaultValue={modalData.description} name="description" onChange={(e) => onInputChange(e)} />
                   </Modal.Body>
                   <Modal.Footer>
                       <Button variant="secondary" onClick={handleClose}>
