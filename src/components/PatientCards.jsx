@@ -31,11 +31,11 @@ export function PatientCards (props) {
             <div key={patient.id}>
               <Col>
                 <Card className="card" style={{ width: '18rem' }}>
+                  <Card.Img variant="top" src={patient.avatar} />
                   <Card.Body className="card-body">
                     <Card.Title className="card-title">{patient.name}</Card.Title>
                     <Card.Text className="card-text">
-                      <img src={patient.avatar} alt="Logo" />
-                      <p>{patient.description}</p>
+                      {patient.description}
                     </Card.Text>
                     <Button variant="primary">Ver más</Button>
                     <Button variant="secondary" onClick={() => {
@@ -45,31 +45,30 @@ export function PatientCards (props) {
                   </Card.Body>
                 </Card>
               </Col>
-
-              {show && <Modal show={show} fullscreen={true} onHide={handleClose}>
-                  <Modal.Header closeButton>
-                      <Modal.Title>
-                        <Form.Label>
-                          <Form.Control type="text" defaultValue={modalData.name} name="name" onChange={(e) => onInputChange(e)} />
-                        </Form.Label>
-                      </Modal.Title>
-                  </Modal.Header>
-                  <Modal.Body>
-                      <Form.Control as="textarea" rows={15} type="text" defaultValue={modalData.description} name="description" onChange={(e) => onInputChange(e)} />
-                  </Modal.Body>
-                  <Modal.Footer>
-                      <Button variant="secondary" onClick={handleClose}>
-                      Close
-                      </Button>
-                      <Button variant="primary" onClick={handleClose}>
-                      Save Changes
-                      </Button>
-                  </Modal.Footer>
-              </Modal>}
             </div>
           ))
         }
       </Row>
+      {show && <Modal show={show} onHide={handleClose}>
+          <Modal.Header closeButton>
+              <Modal.Title>
+                <Form.Label>
+                  <Form.Control type="text" defaultValue={modalData.name} name="name" onChange={(e) => onInputChange(e)} />
+                </Form.Label>
+              </Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+              <Form.Control as="textarea" rows={15} type="text" defaultValue={modalData.description} name="description" onChange={(e) => onInputChange(e)} />
+          </Modal.Body>
+          <Modal.Footer>
+              <Button variant="secondary" onClick={handleClose}>
+              Close
+              </Button>
+              <Button variant="primary" onClick={handleClose}>
+              Save Changes
+              </Button>
+          </Modal.Footer>
+      </Modal>}
     </Container>
   )
 }
