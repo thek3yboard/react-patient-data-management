@@ -81,19 +81,22 @@ function App () {
           </Modal.Header>
           <Modal.Body>
             <Row className="mb-3 form-row">
-              <Form.Control required type="text" placeholder="Image URL" name="image" onChange={(e) => onInputChange(e)} />
+              <Form.Label>Image URL</Form.Label>
+              <Form.Control required type="text" name="avatar" onChange={(e) => onInputChange(e)} />
               <Form.Control.Feedback type="invalid">
                 Image URL cannot be empty.
               </Form.Control.Feedback>
             </Row>
             <Row className="mb-3 form-row">
-              <Form.Control required type="text" placeholder="Name" name="name" onChange={(e) => onInputChange(e)} />
+              <Form.Label>Name</Form.Label>
+              <Form.Control required type="text" name="name" onChange={(e) => onInputChange(e)} />
               <Form.Control.Feedback type="invalid">
                 Name cannot be empty.
               </Form.Control.Feedback>
             </Row>
             <Row className="mb-3 form-row">
-              <Form.Control required as="textarea" rows={15} type="text" placeholder="Description" name="description" onChange={(e) => onInputChange(e)} />
+            <Form.Label>Description</Form.Label>
+              <Form.Control required as="textarea" rows={15} type="text" name="description" onChange={(e) => onInputChange(e)} />
               <Form.Control.Feedback type="invalid">
                 Description cannot be empty.
               </Form.Control.Feedback>

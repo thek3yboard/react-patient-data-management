@@ -139,19 +139,22 @@ export function PatientCards (props) {
           </Modal.Header>
           <Modal.Body>
             <Row className="mb-3 form-row">
-              <Form.Control required type="text" placeholder="Image URL" defaultValue={modalData.avatar} name="avatar" onChange={(e) => onInputChange(e)} />
+            <Form.Label>Image URL</Form.Label>
+              <Form.Control required type="text" defaultValue={modalData.avatar} name="avatar" onChange={(e) => onInputChange(e)} />
               <Form.Control.Feedback type="invalid">
                 Image URL cannot be empty.
               </Form.Control.Feedback>
             </Row>
             <Row className="mb-3 form-row">
-              <Form.Control required type="text" placeholder="Name" defaultValue={modalData.name} name="name" onChange={(e) => onInputChange(e)} />
+              <Form.Label>Name</Form.Label>
+              <Form.Control required type="text" defaultValue={modalData.name} name="name" onChange={(e) => onInputChange(e)} />
               <Form.Control.Feedback type="invalid">
                 Name cannot be empty.
               </Form.Control.Feedback>
             </Row>
             <Row className="mb-3 form-row">
-              <Form.Control required as="textarea" rows={15} type="text" placeholder="Description" defaultValue={modalData.description} name="description" onChange={(e) => onInputChange(e)} />
+              <Form.Label>Description</Form.Label>
+              <Form.Control required as="textarea" rows={15} type="text" defaultValue={modalData.description} name="description" onChange={(e) => onInputChange(e)} />
               <Form.Control.Feedback type="invalid">
                 Description cannot be empty.
               </Form.Control.Feedback>
@@ -161,9 +164,10 @@ export function PatientCards (props) {
                 <div key={index}>
                   { `${field.label}` in modalData
                     ? <Row className="mb-3 form-row">
-                    <Form.Control required type={field.type} placeholder={field.placeholder} name={field.label} defaultValue={modalData[field.label]} onChange={(e) => onInputChange(e)} />
+                    <Form.Label>{field.placeholder}</Form.Label>
+                    <Form.Control required type={field.type} name={field.label} defaultValue={modalData[field.label]} onChange={(e) => onInputChange(e)} />
                     <Form.Control.Feedback type="invalid">
-                      !!!
+                      {field.placeholder} cannot be empty.
                     </Form.Control.Feedback>
                   </Row>
                     : <></>
