@@ -15,15 +15,32 @@ import './PatientCards.css'
 export function PatientCards (props) {
   const [show, setShow] = useState(false)
   const [modalData, setModalData] = useState(null)
+  const [validated, setValidated] = useState(false)
 
   const handleClose = () => setShow(false)
-  const handleShow = () => setShow(true)
+  const handleShow = () => {
+    setShow(true)
+    setValidated(false)
+  }
 
   const onInputChange = (e) => {
     if (e.target.name === 'name') {
       modalData.name = e.target.value
     } else if (e.target.name === 'description') {
       modalData.description = e.target.value
+    } else if (e.target.name === 'image') {
+      modalData.avatar = e.target.value
+    }
+  }
+
+  const handleSubmit = (event) => {
+    const form = event.currentTarget
+    if (form.checkValidity() === false) {
+      event.preventDefault()
+      event.stopPropagation()
+      setValidated(true)
+    } else {
+      handleClose()
     }
   }
 
@@ -90,24 +107,41 @@ export function PatientCards (props) {
         }
       </Row>
       {show && <Modal show={show} onHide={handleClose}>
+        <Form noValidate validated={validated} onSubmit={handleSubmit}>
           <Modal.Header closeButton>
-              <Modal.Title>
-                <Form.Label>
-                  <Form.Control type="text" defaultValue={modalData.name} name="name" onChange={(e) => onInputChange(e)} />
-                </Form.Label>
-              </Modal.Title>
+            <Modal.Title>
+              Create patient record
+            </Modal.Title>
           </Modal.Header>
           <Modal.Body>
-              <Form.Control as="textarea" rows={15} type="text" defaultValue={modalData.description} name="description" onChange={(e) => onInputChange(e)} />
+            <Row className="mb-3 form-row">
+              <Form.Control required type="text" placeholder="Image URL" defaultValue={modalData.avatar} name="image" onChange={(e) => onInputChange(e)} />
+              <Form.Control.Feedback type="invalid">
+                Image URL cannot be empty.
+              </Form.Control.Feedback>
+            </Row>
+            <Row className="mb-3 form-row">
+              <Form.Control required type="text" placeholder="Name" defaultValue={modalData.name} name="name" onChange={(e) => onInputChange(e)} />
+              <Form.Control.Feedback type="invalid">
+                Name cannot be empty.
+              </Form.Control.Feedback>
+            </Row>
+            <Row className="mb-3 form-row">
+              <Form.Control required as="textarea" rows={15} type="text" placeholder="Description" defaultValue={modalData.description} name="description" onChange={(e) => onInputChange(e)} />
+              <Form.Control.Feedback type="invalid">
+                Description cannot be empty.
+              </Form.Control.Feedback>
+            </Row>
           </Modal.Body>
           <Modal.Footer>
               <Button variant="secondary" onClick={handleClose}>
-              Close
+                Close
               </Button>
-              <Button variant="primary" onClick={handleClose}>
-              Save Changes
+              <Button type="submit">
+                Save Changes
               </Button>
           </Modal.Footer>
+        </Form>
       </Modal>}
     </Container>
   )
