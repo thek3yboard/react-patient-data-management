@@ -114,7 +114,21 @@ export function PatientCards (props) {
                       <Card.Title>{patient.name}</Card.Title>
                       <Card.Subtitle className="mb-2 text-muted">Created: {dayjs(patient.createdAt).format('MM/DD/YYYY')}</Card.Subtitle>
                         <Accordion.Collapse eventKey="0">
-                          <Card.Body>{patient.description}</Card.Body>
+                          <Card.Body>
+                            <Card.Subtitle className="mb-2 text-muted">Description</Card.Subtitle>
+                              {patient.description}
+                            {
+                              formFields.map((field, index) => (
+                                <div key={index}>
+                                  { `${field.label}` in patient
+                                    ? <><Card.Subtitle className="mb-2 text-muted subtitle-padding">{field.placeholder}</Card.Subtitle>
+                                    {patient[field.label]}</>
+                                    : <></>
+                                  }
+                                </div>
+                              ))
+                            }
+                          </Card.Body>
                         </Accordion.Collapse>
                         <ContextAwareToggle eventKey="0" />
                       <Button variant="secondary" onClick={() => {
