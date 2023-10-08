@@ -1,4 +1,4 @@
-import { useState, useContext } from 'react'
+import { useState, useContext, useRef } from 'react'
 import Button from 'react-bootstrap/Button'
 import Card from 'react-bootstrap/Card'
 import Col from 'react-bootstrap/Col'
@@ -17,6 +17,11 @@ export function PatientCards (props) {
   const [show, setShow] = useState(false)
   const [modalData, setModalData] = useState(null)
   const [validated, setValidated] = useState(false)
+  const [toggle, setToggle] = useState(false)
+  const [formFields, setFormFields] = useState([])
+
+  const inputRef = useRef()
+  const selectRef = useRef()
 
   const handleClose = () => setShow(false)
   const handleShow = () => {
@@ -25,13 +30,26 @@ export function PatientCards (props) {
   }
 
   const onInputChange = (e) => {
-    if (e.target.name === 'name') {
-      modalData.name = e.target.value
-    } else if (e.target.name === 'description') {
-      modalData.description = e.target.value
-    } else if (e.target.name === 'image') {
-      modalData.avatar = e.target.value
-    }
+    modalData[e.target.name] = e.target.value
+  }
+
+  const handleAddField = (e) => {
+    e.preventDefault()
+    const fields = [...formFields]
+    fields.push({
+      placeholder: inputRef.current.value || 'label',
+      label: inputRef.current.value.toLowerCase() || 'label',
+      type: selectRef.current.value || 'text',
+      value: ''
+    })
+    setFormFields(fields)
+    modalData[inputRef.current.value.toLowerCase()] = ''
+    setToggle(false)
+  }
+
+  const addBtnClick = (e) => {
+    e.preventDefault()
+    setToggle(true)
   }
 
   const handleSubmit = (event) => {
@@ -118,7 +136,7 @@ export function PatientCards (props) {
           </Modal.Header>
           <Modal.Body>
             <Row className="mb-3 form-row">
-              <Form.Control required type="text" placeholder="Image URL" defaultValue={modalData.avatar} name="image" onChange={(e) => onInputChange(e)} />
+              <Form.Control required type="text" placeholder="Image URL" defaultValue={modalData.avatar} name="avatar" onChange={(e) => onInputChange(e)} />
               <Form.Control.Feedback type="invalid">
                 Image URL cannot be empty.
               </Form.Control.Feedback>
@@ -135,6 +153,41 @@ export function PatientCards (props) {
                 Description cannot be empty.
               </Form.Control.Feedback>
             </Row>
+            {
+              formFields.map((field, index) => (
+                <div key={index}>
+                  { `${field.label}` in modalData
+                    ? <Row className="mb-3 form-row">
+                    <Form.Control required type={field.type} placeholder={field.placeholder} name={field.label} defaultValue={modalData[field.label]} onChange={(e) => onInputChange(e)} />
+                    <Form.Control.Feedback type="invalid">
+                      !!!
+                    </Form.Control.Feedback>
+                  </Row>
+                    : <></>
+                  }
+                </div>
+              ))
+            }
+            {!toggle
+              ? (
+              <div className="center">
+                <button className="add-btn" onClick={addBtnClick}>
+                  Add new
+                </button>
+              </div>
+                )
+              : (
+              <div className="dialog-box">
+                <input type="text" placeholder="label" ref={inputRef} />
+                <select ref={selectRef}>
+                  <option value="text">Text</option>
+                  <option value="number">Number</option>
+                </select>
+                <button className="add-btn" onClick={handleAddField}>
+                  Add
+                </button>
+              </div>
+                )}
           </Modal.Body>
           <Modal.Footer>
               <Button variant="secondary" onClick={handleClose}>
