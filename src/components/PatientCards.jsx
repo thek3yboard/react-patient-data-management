@@ -16,6 +16,7 @@ import './PatientCards.css'
 export function PatientCards (props) {
   const [show, setShow] = useState(false)
   const [modalData, setModalData] = useState(null)
+  const [modalDataAux, setModalDataAux] = useState(null)
   const [validated, setValidated] = useState(false)
   const [toggle, setToggle] = useState(false)
   const [formFields, setFormFields] = useState([])
@@ -30,7 +31,7 @@ export function PatientCards (props) {
   }
 
   const onInputChange = (e) => {
-    modalData[e.target.name] = e.target.value
+    setModalDataAux({ ...modalDataAux, [e.target.name]: e.target.value })
   }
 
   const handleAddField = (e) => {
@@ -60,6 +61,7 @@ export function PatientCards (props) {
       setValidated(true)
       toast.error('Patient record couldn`t be modified', { theme: 'colored', position: toast.POSITION.TOP_RIGHT, autoClose: 5000 })
     } else {
+      for (const property in modalDataAux) { modalData[property] = modalDataAux[property] }
       handleClose()
       toast.success('Patient record has been updated successfully', { theme: 'colored', position: toast.POSITION.TOP_RIGHT, autoClose: 5000 })
     }
@@ -118,6 +120,7 @@ export function PatientCards (props) {
                       <Button variant="secondary" onClick={() => {
                         handleShow()
                         setModalData(patient)
+                        setModalDataAux(patient)
                       }}>Editar</Button>
                     </Card.Body>
                   </Card>
