@@ -35,15 +35,46 @@ export function PatientCards (props) {
   }
 
   const handleAddField = (e) => {
+    let fieldExist = false
     e.preventDefault()
     const fields = [...formFields]
-    fields.push({
-      placeholder: inputRef.current.value || 'label',
-      label: inputRef.current.value.toLowerCase() || 'label',
-      type: selectRef.current.value || 'text',
-      value: ''
-    })
-    setFormFields(fields)
+    if (fields.length > 0) {
+      fields.forEach((field) => {
+        if (field.placeholder === inputRef.current.value ||
+        field.label === inputRef.current.value ||
+        field.placeholder.toUpperCase() === inputRef.current.value) {
+          fieldExist = true
+        }
+      })
+
+      if (!fieldExist) {
+        fields.push({
+          placeholder: inputRef.current.value || 'label',
+          label: inputRef.current.value.toLowerCase() || 'label',
+          type: selectRef.current.value || 'text',
+          value: ''
+        })
+
+        setFormFields(fields)
+      } else {
+        // toast.error('The field already exists in the record', { theme: 'colored', position: toast.POSITION.TOP_RIGHT, autoClose: 5000 })
+      }
+    } else {
+      fields.push({
+        placeholder: inputRef.current.value || 'label',
+        label: inputRef.current.value.toLowerCase() || 'label',
+        type: selectRef.current.value || 'text',
+        value: ''
+      })
+
+      setFormFields(fields)
+    }
+
+    if (modalData[inputRef.current.value.toLowerCase()] !== undefined) {
+      toast.error('The field already exists in the record', { theme: 'colored', position: toast.POSITION.TOP_RIGHT, autoClose: 5000 })
+      return
+    }
+
     modalData[inputRef.current.value.toLowerCase()] = ''
     setToggle(false)
   }
