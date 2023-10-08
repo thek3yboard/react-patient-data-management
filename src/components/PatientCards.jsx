@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useContext } from 'react'
 import Button from 'react-bootstrap/Button'
 import Card from 'react-bootstrap/Card'
 import Col from 'react-bootstrap/Col'
@@ -7,7 +7,9 @@ import Container from 'react-bootstrap/Container'
 import Modal from 'react-bootstrap/Modal'
 import Form from 'react-bootstrap/Form'
 import Accordion from 'react-bootstrap/Accordion'
+import AccordionContext from 'react-bootstrap/AccordionContext'
 import { useAccordionButton } from 'react-bootstrap/AccordionButton'
+import dayjs from 'dayjs'
 import './PatientCards.css'
 
 export function PatientCards (props) {
@@ -25,17 +27,37 @@ export function PatientCards (props) {
     }
   }
 
-  function CustomToggle ({ children, eventKey, isExpanded }) {
-    const decoratedOnClick = useAccordionButton(eventKey)
+  function ContextAwareToggle ({ children, eventKey, callback }) {
+    const { activeEventKey } = useContext(AccordionContext)
 
-    return (
-      <Button
-        variant="primary"
-        onClick={decoratedOnClick}
-      >
-        {children}
-      </Button>
+    const decoratedOnClick = useAccordionButton(
+      eventKey,
+      () => callback && callback(eventKey)
     )
+
+    const isCurrentEventKey = activeEventKey === eventKey
+
+    if (isCurrentEventKey) {
+      return (
+        <button
+          type="button"
+          style={{ backgroundColor: 'blue' }}
+          onClick={decoratedOnClick}
+        >
+          Read less
+        </button>
+      )
+    } else {
+      return (
+        <button
+          type="button"
+          style={{ backgroundColor: 'blue' }}
+          onClick={decoratedOnClick}
+        >
+          Read more
+        </button>
+      )
+    }
   }
 
   return (
@@ -46,17 +68,15 @@ export function PatientCards (props) {
             <div key={patient.id}>
               <Col>
                 <Accordion>
-                  <Card className="card" style={{ width: '18rem' }}>
+                  <Card style={{ width: '18rem' }}>
                     <Card.Img variant="top" src={patient.avatar} />
-                    <Card.Body className="card-body">
-                      <Card.Title className="card-title">{patient.name}</Card.Title>
-                        <Card.Text className="card-text">
-                          {patient.description}
-                        </Card.Text>
+                    <Card.Body>
+                      <Card.Title>{patient.name}</Card.Title>
+                      <Card.Subtitle className="mb-2 text-muted">Created: {dayjs(patient.createdAt).format('MM/DD/YYYY')}</Card.Subtitle>
                         <Accordion.Collapse eventKey="0">
                           <Card.Body>{patient.description}</Card.Body>
                         </Accordion.Collapse>
-                        <CustomToggle variant="primary" eventKey="0">Read less</CustomToggle>
+                        <ContextAwareToggle eventKey="0" />
                       <Button variant="secondary" onClick={() => {
                         handleShow()
                         setModalData(patient)
