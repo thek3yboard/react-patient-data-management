@@ -6,6 +6,8 @@ import Row from 'react-bootstrap/Row'
 import Container from 'react-bootstrap/Container'
 import Modal from 'react-bootstrap/Modal'
 import Form from 'react-bootstrap/Form'
+import Accordion from 'react-bootstrap/Accordion'
+import { useAccordionButton } from 'react-bootstrap/AccordionButton'
 import './PatientCards.css'
 
 export function PatientCards (props) {
@@ -23,6 +25,19 @@ export function PatientCards (props) {
     }
   }
 
+  function CustomToggle ({ children, eventKey, isExpanded }) {
+    const decoratedOnClick = useAccordionButton(eventKey)
+
+    return (
+      <Button
+        variant="primary"
+        onClick={decoratedOnClick}
+      >
+        {children}
+      </Button>
+    )
+  }
+
   return (
     <Container fluid>
       <Row xs={1} md={3} className="g-5">
@@ -30,20 +45,25 @@ export function PatientCards (props) {
           props.patients.map((patient) => (
             <div key={patient.id}>
               <Col>
-                <Card className="card" style={{ width: '18rem' }}>
-                  <Card.Img variant="top" src={patient.avatar} />
-                  <Card.Body className="card-body">
-                    <Card.Title className="card-title">{patient.name}</Card.Title>
-                    <Card.Text className="card-text">
-                      {patient.description}
-                    </Card.Text>
-                    <Button variant="primary">Ver más</Button>
-                    <Button variant="secondary" onClick={() => {
-                      handleShow()
-                      setModalData(patient)
-                    }}>Editar</Button>
-                  </Card.Body>
-                </Card>
+                <Accordion>
+                  <Card className="card" style={{ width: '18rem' }}>
+                    <Card.Img variant="top" src={patient.avatar} />
+                    <Card.Body className="card-body">
+                      <Card.Title className="card-title">{patient.name}</Card.Title>
+                        <Card.Text className="card-text">
+                          {patient.description}
+                        </Card.Text>
+                        <Accordion.Collapse eventKey="0">
+                          <Card.Body>{patient.description}</Card.Body>
+                        </Accordion.Collapse>
+                        <CustomToggle variant="primary" eventKey="0">Read less</CustomToggle>
+                      <Button variant="secondary" onClick={() => {
+                        handleShow()
+                        setModalData(patient)
+                      }}>Editar</Button>
+                    </Card.Body>
+                  </Card>
+                </Accordion>
               </Col>
             </div>
           ))
