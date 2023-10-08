@@ -79,37 +79,35 @@ export function PatientCards (props) {
 
     if (isCurrentEventKey) {
       return (
-        <button
-          type="button"
-          style={{ backgroundColor: 'blue' }}
+        <Button
+          variant="primary"
           onClick={decoratedOnClick}
         >
           Read less
-        </button>
+        </Button>
       )
     } else {
       return (
-        <button
-          type="button"
-          style={{ backgroundColor: 'blue' }}
+        <Button
+          variant="primary"
           onClick={decoratedOnClick}
         >
           Read more
-        </button>
+        </Button>
       )
     }
   }
 
   return (
     <Container fluid>
-      <Row xs={1} md={3} className="g-5">
+      <Row xs={1} md={2} lg={3} xl={4} className="g-5">
         {
           props.patients.map((patient) => (
             <div key={patient.id}>
               <Col>
                 <Accordion>
-                  <Card style={{ width: '18rem' }}>
-                    <Card.Img variant="top" src={patient.avatar} />
+                  <Card className="card-center" style={{ width: '18rem' }}>
+                    <Card.Img style={{ width: '14em', height: '14em' }} variant="top" src={patient.avatar} />
                     <Card.Body>
                       <Card.Title>{patient.name}</Card.Title>
                       <Card.Subtitle className="mb-2 text-muted">Created: {dayjs(patient.createdAt).format('MM/DD/YYYY')}</Card.Subtitle>
@@ -131,11 +129,11 @@ export function PatientCards (props) {
                           </Card.Body>
                         </Accordion.Collapse>
                         <ContextAwareToggle eventKey="0" />
-                      <Button variant="secondary" onClick={() => {
+                      <Button variant="secondary" className="edit-button" onClick={() => {
                         handleShow()
                         setModalData(patient)
                         setModalDataAux(patient)
-                      }}>Editar</Button>
+                      }}>Edit</Button>
                     </Card.Body>
                   </Card>
                 </Accordion>
@@ -144,82 +142,87 @@ export function PatientCards (props) {
           ))
         }
       </Row>
-      {show && <Modal show={show} onHide={handleClose}>
-        <Form noValidate validated={validated} onSubmit={handleSubmit}>
-          <Modal.Header closeButton>
-            <Modal.Title>
-              Create patient record
-            </Modal.Title>
-          </Modal.Header>
-          <Modal.Body>
-            <Row className="mb-3 form-row">
-            <Form.Label>Image URL</Form.Label>
-              <Form.Control required type="text" defaultValue={modalData.avatar} name="avatar" onChange={(e) => onInputChange(e)} />
-              <Form.Control.Feedback type="invalid">
-                Image URL cannot be empty.
-              </Form.Control.Feedback>
-            </Row>
-            <Row className="mb-3 form-row">
-              <Form.Label>Name</Form.Label>
-              <Form.Control required type="text" defaultValue={modalData.name} name="name" onChange={(e) => onInputChange(e)} />
-              <Form.Control.Feedback type="invalid">
-                Name cannot be empty.
-              </Form.Control.Feedback>
-            </Row>
-            <Row className="mb-3 form-row">
-              <Form.Label>Description</Form.Label>
-              <Form.Control required as="textarea" rows={15} type="text" defaultValue={modalData.description} name="description" onChange={(e) => onInputChange(e)} />
-              <Form.Control.Feedback type="invalid">
-                Description cannot be empty.
-              </Form.Control.Feedback>
-            </Row>
-            {
-              formFields.map((field, index) => (
-                <div key={index}>
-                  { `${field.label}` in modalData
-                    ? <Row className="mb-3 form-row">
-                    <Form.Label>{field.placeholder}</Form.Label>
-                    <Form.Control required type={field.type} name={field.label} defaultValue={modalData[field.label]} onChange={(e) => onInputChange(e)} />
-                    <Form.Control.Feedback type="invalid">
-                      {field.placeholder} cannot be empty.
-                    </Form.Control.Feedback>
-                  </Row>
-                    : <></>
-                  }
-                </div>
-              ))
-            }
-            {!toggle
-              ? (
-              <div className="center">
-                <button className="add-btn" onClick={addBtnClick}>
-                  Add new
-                </button>
-              </div>
-                )
-              : (
-              <div className="dialog-box">
-                <input type="text" placeholder="label" ref={inputRef} />
-                <select ref={selectRef}>
-                  <option value="text">Text</option>
-                  <option value="number">Number</option>
-                </select>
-                <button className="add-btn" onClick={handleAddField}>
-                  Add
-                </button>
-              </div>
-                )}
-          </Modal.Body>
-          <Modal.Footer>
-              <Button variant="secondary" onClick={handleClose}>
-                Close
-              </Button>
-              <Button type="submit">
-                Save Changes
-              </Button>
-          </Modal.Footer>
-        </Form>
-      </Modal>}
+      {show &&
+        <Modal show={show} onHide={handleClose}>
+          <Form noValidate validated={validated} onSubmit={handleSubmit}>
+            <Modal.Header closeButton>
+              <Modal.Title>
+                Create patient record
+              </Modal.Title>
+            </Modal.Header>
+            <Modal.Body>
+              <Row className="mb-3 form-row">
+              <Form.Label>Image URL</Form.Label>
+                <Form.Control required type="text" defaultValue={modalData.avatar} name="avatar" onChange={(e) => onInputChange(e)} />
+                <Form.Control.Feedback type="invalid">
+                  Image URL cannot be empty.
+                </Form.Control.Feedback>
+              </Row>
+              <Row className="mb-3 form-row">
+                <Form.Label>Name</Form.Label>
+                <Form.Control required type="text" defaultValue={modalData.name} name="name" onChange={(e) => onInputChange(e)} />
+                <Form.Control.Feedback type="invalid">
+                  Name cannot be empty.
+                </Form.Control.Feedback>
+              </Row>
+              <Row className="mb-3 form-row">
+                <Form.Label>Description</Form.Label>
+                <Form.Control required as="textarea" rows={15} type="text" defaultValue={modalData.description} name="description" onChange={(e) => onInputChange(e)} />
+                <Form.Control.Feedback type="invalid">
+                  Description cannot be empty.
+                </Form.Control.Feedback>
+              </Row>
+              {
+                formFields.map((field, index) => (
+                  <div key={index}>
+                    { `${field.label}` in modalData
+                      ? <Row className="mb-3 form-row">
+                      <Form.Label>{field.placeholder}</Form.Label>
+                      <Form.Control required type={field.type} name={field.label} defaultValue={modalData[field.label]} onChange={(e) => onInputChange(e)} />
+                      <Form.Control.Feedback type="invalid">
+                        {field.placeholder} cannot be empty.
+                      </Form.Control.Feedback>
+                    </Row>
+                      : <></>
+                    }
+                  </div>
+                ))
+              }
+              {!toggle
+                ? (
+                    <div className="center">
+                      <Button variant="dark" onClick={addBtnClick}>Add new field</Button>
+                    </div>
+                  )
+                : (
+                    <Row>
+                      <Col xs={6}>
+                        <Form.Control required type="text" placeholder="Label" ref={inputRef} />
+                      </Col>
+                      <Col xs={4}>
+                        <Form.Select ref={selectRef}>
+                          <option value="text">Text</option>
+                          <option value="number">Number</option>
+                        </Form.Select>
+                      </Col>
+                      <Col xs={2}>
+                        <Button variant="success" onClick={handleAddField}>Add</Button>
+                      </Col>
+                    </Row>
+                  )
+              }
+            </Modal.Body>
+            <Modal.Footer>
+                <Button variant="secondary" onClick={handleClose}>
+                  Close
+                </Button>
+                <Button type="submit">
+                  Save Changes
+                </Button>
+            </Modal.Footer>
+          </Form>
+        </Modal>
+      }
     </Container>
   )
 }

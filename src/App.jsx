@@ -11,7 +11,7 @@ import './App.css'
 toast.configure()
 
 function App () {
-  const [patients, setPatients] = useState([])
+  const [patients, setPatients] = useState(null)
   const [validated, setValidated] = useState(false)
 
   const newPatient = {
@@ -62,8 +62,12 @@ function App () {
 
   return (
     <>
-      <Button variant="primary" onClick={handleShow}>+</Button>
+      {patients
+        ? <><h1>Patient Records</h1>
+      <Button variant="primary" className="new-patient-button" onClick={handleShow}>Create new patient record</Button>
       <PatientCards patients={patients} />
+      </>
+        : <></>}
 
       {show &&
       <Modal show={show} onHide={handleClose}>
