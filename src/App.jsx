@@ -17,7 +17,7 @@ function App () {
   const newPatient = {
     name: '',
     description: '',
-    id: ''
+    avatar: ''
   }
   const [show, setShow] = useState(false)
 
@@ -39,13 +39,7 @@ function App () {
   }, [])
 
   const onInputChange = (e) => {
-    if (e.target.name === 'name') {
-      newPatient.name = e.target.value
-    } else if (e.target.name === 'description') {
-      newPatient.description = e.target.value
-    } else if (e.target.name === 'image') {
-      newPatient.avatar = e.target.value
-    }
+    newPatient[e.target.name] = e.target.value
   }
 
   const addNewPatient = () => {
