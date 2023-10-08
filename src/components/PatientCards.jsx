@@ -10,6 +10,7 @@ import Accordion from 'react-bootstrap/Accordion'
 import AccordionContext from 'react-bootstrap/AccordionContext'
 import { useAccordionButton } from 'react-bootstrap/AccordionButton'
 import dayjs from 'dayjs'
+import { toast } from 'react-toastify'
 import './PatientCards.css'
 
 export function PatientCards (props) {
@@ -39,8 +40,10 @@ export function PatientCards (props) {
       event.preventDefault()
       event.stopPropagation()
       setValidated(true)
+      toast.error('Patient record couldn`t be modified', { theme: 'colored', position: toast.POSITION.TOP_RIGHT, autoClose: 5000 })
     } else {
       handleClose()
+      toast.success('Patient record has been updated successfully', { theme: 'colored', position: toast.POSITION.TOP_RIGHT, autoClose: 5000 })
     }
   }
 

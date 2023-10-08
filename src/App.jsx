@@ -4,8 +4,11 @@ import Button from 'react-bootstrap/Button'
 import Modal from 'react-bootstrap/Modal'
 import Form from 'react-bootstrap/Form'
 import Row from 'react-bootstrap/Row'
+import { toast } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import './App.css'
+toast.configure()
 
 function App () {
   const [patients, setPatients] = useState([])
@@ -56,8 +59,10 @@ function App () {
       event.preventDefault()
       event.stopPropagation()
       setValidated(true)
+      toast.error('Patient record couldn`t be created', { theme: 'colored', position: toast.POSITION.TOP_RIGHT, autoClose: 5000 })
     } else {
       addNewPatient()
+      toast.success('A new patient record has been created successfully', { theme: 'colored', position: toast.POSITION.TOP_RIGHT, autoClose: 5000 })
     }
   }
 
