@@ -19,7 +19,10 @@ function App () {
   const [show, setShow] = useState(false)
 
   const handleClose = () => setShow(false)
-  const handleShow = () => setShow(true)
+  const handleShow = () => {
+    setShow(true)
+    setValidated(false)
+  }
 
   useEffect(() => {
     fetch('https://63bedcf7f5cfc0949b634fc8.mockapi.io/users')
@@ -52,11 +55,10 @@ function App () {
     if (form.checkValidity() === false) {
       event.preventDefault()
       event.stopPropagation()
+      setValidated(true)
     } else {
       addNewPatient()
     }
-
-    setValidated(true)
   }
 
   return (
@@ -76,25 +78,25 @@ function App () {
             <Row className="mb-3 form-row">
               <Form.Control required type="text" placeholder="Image URL" name="image" onChange={(e) => onInputChange(e)} />
               <Form.Control.Feedback type="invalid">
-                Image URL can't be empty.
+                Image URL cannot be empty.
               </Form.Control.Feedback>
             </Row>
             <Row className="mb-3 form-row">
               <Form.Control required type="text" placeholder="Name" name="name" onChange={(e) => onInputChange(e)} />
               <Form.Control.Feedback type="invalid">
-                Name can't be empty.
+                Name cannot be empty.
               </Form.Control.Feedback>
             </Row>
             <Row className="mb-3 form-row">
               <Form.Control required as="textarea" rows={15} type="text" placeholder="Description" name="description" onChange={(e) => onInputChange(e)} />
               <Form.Control.Feedback type="invalid">
-                Description can't be empty.
+                Description cannot be empty.
               </Form.Control.Feedback>
             </Row>
           </Modal.Body>
           <Modal.Footer>
               <Button variant="secondary" onClick={handleClose}>
-              Close
+                Close
               </Button>
               <Button type="submit">
                 Create
