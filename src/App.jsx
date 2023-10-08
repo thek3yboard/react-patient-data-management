@@ -3,11 +3,14 @@ import { PatientCards } from './components/PatientCards.jsx'
 import Button from 'react-bootstrap/Button'
 import Modal from 'react-bootstrap/Modal'
 import Form from 'react-bootstrap/Form'
+import Row from 'react-bootstrap/Row'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import './App.css'
 
 function App () {
   const [patients, setPatients] = useState([])
+  const [validated, setValidated] = useState(false)
+
   const newPatient = {
     name: '',
     description: '',
@@ -34,11 +37,26 @@ function App () {
       newPatient.name = e.target.value
     } else if (e.target.name === 'description') {
       newPatient.description = e.target.value
+    } else if (e.target.name === 'image') {
+      newPatient.avatar = e.target.value
     }
   }
 
   const addNewPatient = () => {
     setPatients(patients => [...patients, newPatient])
+    handleClose()
+  }
+
+  const handleSubmit = (event) => {
+    const form = event.currentTarget
+    if (form.checkValidity() === false) {
+      event.preventDefault()
+      event.stopPropagation()
+    } else {
+      addNewPatient()
+    }
+
+    setValidated(true)
   }
 
   return (
@@ -47,25 +65,42 @@ function App () {
       <PatientCards patients={patients} />
 
       {show &&
-      <Modal show={show} fullscreen={true} onHide={handleClose}>
+      <Modal show={show} onHide={handleClose}>
+        <Form noValidate validated={validated} onSubmit={handleSubmit}>
           <Modal.Header closeButton>
               <Modal.Title>
-                <Form.Label>
-                  <Form.Control type="text" placeholder="Name" name="name" onChange={(e) => onInputChange(e)} />
-                </Form.Label>
+                Create patient record
               </Modal.Title>
           </Modal.Header>
           <Modal.Body>
-              <Form.Control as="textarea" rows={15} type="text" placeholder="Description" name="description" onChange={(e) => onInputChange(e)} />
+            <Row className="mb-3 form-row">
+              <Form.Control required type="text" placeholder="Image URL" name="image" onChange={(e) => onInputChange(e)} />
+              <Form.Control.Feedback type="invalid">
+                Image URL can't be empty.
+              </Form.Control.Feedback>
+            </Row>
+            <Row className="mb-3 form-row">
+              <Form.Control required type="text" placeholder="Name" name="name" onChange={(e) => onInputChange(e)} />
+              <Form.Control.Feedback type="invalid">
+                Name can't be empty.
+              </Form.Control.Feedback>
+            </Row>
+            <Row className="mb-3 form-row">
+              <Form.Control required as="textarea" rows={15} type="text" placeholder="Description" name="description" onChange={(e) => onInputChange(e)} />
+              <Form.Control.Feedback type="invalid">
+                Description can't be empty.
+              </Form.Control.Feedback>
+            </Row>
           </Modal.Body>
           <Modal.Footer>
               <Button variant="secondary" onClick={handleClose}>
               Close
               </Button>
-              <Button variant="primary" onClick={addNewPatient}>
-              Save Changes
+              <Button type="submit">
+                Create
               </Button>
           </Modal.Footer>
+        </Form>
       </Modal>}
     </>
   )
