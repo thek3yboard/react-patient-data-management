@@ -2,15 +2,15 @@
 
 ## Instructions to run
 
-1. Clone this repository: https://github.com/thek3yboard/react-patient-data-management
+1. Clone this repository.
 
-2. In the root folder run the following commands
+2. In the root folder run the following commands:
 
 `npm install` **to install dependencies**
 
 `npm run dev` **to deploy the application locally**
 
-3. In the terminal you will see the deployment URL
+3. In the terminal you will see the deployment URL.
 
 ## Design Decisions
 
