@@ -36,13 +36,19 @@ In fact my original idea was to make only one "modal" component for both creatio
 
 1. Vite
 
-I built the app with Vite because it's faster than other compiling tools. Vite does not build your entire application before serving, instead, it builds the application on demand.
+I built the app with Vite because it's faster than other compiling tools.
 
 In this project it didn't make a big difference, but I used it because I prefer to be more accustomed to the more efficient technologies.
 
 2. ESLint
 
 Vite comes with this linter and I like it. I think it's great to use a linter.
+
+### What I didn't implement but wanted to
+
+1. TypeScript
+
+I'm getting into it, still learning how to use it. That's why I developed the app without it and my idea was to implement it if I had the time.
 
 ## Libraries
 
