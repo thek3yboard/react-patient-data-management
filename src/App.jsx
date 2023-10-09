@@ -1,9 +1,7 @@
 import { useEffect, useState } from 'react'
+import { CreateRecordModal } from './components/CreateRecordModal.jsx'
 import { PatientCards } from './components/PatientCards.jsx'
 import Button from 'react-bootstrap/Button'
-import Modal from 'react-bootstrap/Modal'
-import Form from 'react-bootstrap/Form'
-import Row from 'react-bootstrap/Row'
 import { toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import 'bootstrap/dist/css/bootstrap.min.css'
@@ -70,46 +68,8 @@ function App () {
         : <></>}
 
       {show &&
-      <Modal show={show} onHide={handleClose}>
-        <Form noValidate validated={validated} onSubmit={handleSubmit}>
-          <Modal.Header closeButton>
-              <Modal.Title>
-                Create patient record
-              </Modal.Title>
-          </Modal.Header>
-          <Modal.Body>
-            <Row className="mb-3 form-row">
-              <Form.Label>Image URL</Form.Label>
-              <Form.Control required type="text" name="avatar" onChange={(e) => onInputChange(e)} />
-              <Form.Control.Feedback type="invalid">
-                Image URL cannot be empty.
-              </Form.Control.Feedback>
-            </Row>
-            <Row className="mb-3 form-row">
-              <Form.Label>Name</Form.Label>
-              <Form.Control required type="text" name="name" onChange={(e) => onInputChange(e)} />
-              <Form.Control.Feedback type="invalid">
-                Name cannot be empty.
-              </Form.Control.Feedback>
-            </Row>
-            <Row className="mb-3 form-row">
-            <Form.Label>Description</Form.Label>
-              <Form.Control required as="textarea" rows={15} type="text" name="description" onChange={(e) => onInputChange(e)} />
-              <Form.Control.Feedback type="invalid">
-                Description cannot be empty.
-              </Form.Control.Feedback>
-            </Row>
-          </Modal.Body>
-          <Modal.Footer>
-              <Button variant="secondary" onClick={handleClose}>
-                Close
-              </Button>
-              <Button type="submit">
-                Create
-              </Button>
-          </Modal.Footer>
-        </Form>
-      </Modal>}
+      <CreateRecordModal handleShow={handleShow} handleClose={handleClose} handleSubmit={handleSubmit} onInputChange={onInputChange} show={show} validated={validated} />
+      }
     </>
   )
 }
