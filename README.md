@@ -16,7 +16,7 @@
 
 ### App component
 
-It's the app's starting point. I didn't create another component for this because it's a small project and I thought I didn´t needed to.
+It's the app's starting point. I didn't create another component for this because it's a small project and I thought I didn't needed to.
 
 In bigger applications I think it's better to have some sort of "Home" component separated from the App component.
 
@@ -38,11 +38,11 @@ In fact my original idea was to make only one "modal" component for both creatio
 
 I built the app with Vite because it's faster than other compiling tools. Vite does not build your entire application before serving, instead, it builds the application on demand.
 
-In this project it didn't make any difference, but I used it because I prefer to be more accustomed to the more efficient technologies.
+In this project it didn't make a big difference, but I used it because I prefer to be more accustomed to the more efficient technologies.
 
 2. ESLint
 
-Vite comes with ESLint and I like ESLint. I think it's great to use a linter.
+Vite comes with this linter and I like it. I think it's great to use a linter.
 
 ## Libraries
 
