@@ -40,9 +40,7 @@ export function PatientCards (props) {
     const fields = [...formFields]
     if (fields.length > 0) {
       fields.forEach((field) => {
-        if (field.placeholder === inputRef.current.value ||
-        field.label === inputRef.current.value ||
-        field.placeholder.toUpperCase() === inputRef.current.value) {
+        if (field.placeholder.toLowerCase() === inputRef.current.value.toLowerCase()) {
           fieldExist = true
         }
       })
